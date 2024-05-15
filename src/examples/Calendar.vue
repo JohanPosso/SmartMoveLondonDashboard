@@ -2,7 +2,7 @@
 import { onBeforeUnmount, onMounted, defineProps } from "vue";
 import { Calendar } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import axios from "axios";
+import api from "/src/boot/axios";
 import moment from "moment";
 
 let calendar;
@@ -46,7 +46,7 @@ onMounted(async () => {
   const tareas = [];
   const token = localStorage.getItem("token");
   try {
-    const response = await axios.get("http://localhost:3000/tarea", {
+    const response = await api.get("/tarea", {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",

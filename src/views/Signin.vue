@@ -117,7 +117,7 @@ import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonSwitch from "@/components/ArgonSwitch.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
 import { useRouter } from "vue-router";
-import axios from "axios";
+import api from "/src/boot/axios";
 
 const router = useRouter();
 const dataToken = ref("");
@@ -143,7 +143,7 @@ onBeforeUnmount(() => {
 
 const submitLogin = async () => {
   try {
-    const response = await axios.post("http://localhost:3000/token", {
+    const response = await api.post("/token", {
       email: email.value,
       password: password.value,
     });

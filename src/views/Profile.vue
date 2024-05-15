@@ -234,7 +234,7 @@
                 </div>
                 <div class="col-md-6">
                   <label for="example-text-input" class="form-control-label"
-                    >Nombres</label
+                    >Nombres *</label
                   >
                   <input
                     id="nombres"
@@ -245,7 +245,7 @@
                 </div>
                 <div class="col-md-6">
                   <label for="example-text-input" class="form-control-label"
-                    >Primer Apellido</label
+                    >Primer Apellido *</label
                   >
                   <argon-input
                     id="primer_apellido"
@@ -262,13 +262,13 @@
                 </div>
                 <div class="col-md-6">
                   <label for="example-text-input" class="form-control-label"
-                    >Correo Electronico</label
+                    >Correo Electronico *</label
                   >
                   <argon-input v-model="email" type="email" />
                 </div>
                 <div class="col-md-6">
                   <label for="example-text-input" class="form-control-label"
-                    >Telefono</label
+                    >Telefono *</label
                   >
                   <argon-input v-model="telefono" type="phone" />
                 </div>
@@ -324,7 +324,7 @@
 import { ref, onBeforeMount, onMounted, onBeforeUnmount } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import axios from "axios";
+import api from "/src/boot/axios";
 import setNavPills from "@/assets/js/nav-pills.js";
 import setTooltip from "@/assets/js/tooltip.js";
 import ArgonInput from "@/components/ArgonInput.vue";
@@ -381,10 +381,7 @@ onBeforeUnmount(() => {
 });
 const submitForm = async () => {
   try {
-    const response = await axios.post(
-      "http://localhost:3000/crear",
-      userData.value
-    );
+    const response = await api.post("/crear", userData.value);
     console.log(response.data);
     router.push("/empleados");
   } catch (error) {

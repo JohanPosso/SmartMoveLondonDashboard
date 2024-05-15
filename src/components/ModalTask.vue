@@ -158,7 +158,7 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import axios from "axios";
+import api from "/src/boot/axios";
 
 const nombre = ref("");
 const fecha_entraga = ref("");
@@ -171,7 +171,7 @@ const users = ref([]);
 
 onMounted(async () => {
   try {
-    const response = await axios.get("http://localhost:3000/todo", {
+    const response = await api.get("/todo", {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
@@ -186,8 +186,8 @@ onMounted(async () => {
 
 const prioridad = () => {
   if (urgente.value === true) return (urgente.value = "Urgente");
-  if (importante.value === true) return (urgente.value = "Importante");
-  if (normal.value === true) return (urgente.value = "No importante");
+  if (importante.value === true) return (importante.value = "Importante");
+  if (normal.value === true) return (normal.value = "No importante");
   return "";
 };
 
@@ -201,12 +201,34 @@ const submitForm = async () => {
     prioridad: prioridad(),
     descripcion: descripcion.value,
   };
+  const sendWhatsapp = async () => {
+    try {
+      const findNumber = users.value.find(
+        (e) => e.id_empleado === userDataValue.id_empleado
+      );
+      console.log(findNumber.telefono); // PONER ESTE NUMERO QUE ES EL DEL USUARIO
+      const response = await api.post("/sendmsg", {
+        to: "+34610137677", // AQUI SE DEBE REEMPLAZAR
+        msg: `
+        🚨*NUEVA TAREA - SMART MOVE LONDON*🚨
 
+    Prioridad:       *${userDataValue.prioridad}*
+    ----------------------------------------
+    Nombre:          *${userDataValue.nombre}*
+    ----------------------------------------
+    Fecha de Fin:    *${userDataValue.fecha_finalizacion_task}*
+    ----------------------------------------
+    *Descripción*:     ${userDataValue.descripcion}
+  `,
+      });
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  };
   try {
-    const response = await axios.post(
-      "http://localhost:3000/creartarea",
-      userDataValue
-    );
+    const response = await api.post("/creartarea", userDataValue);
+    sendWhatsapp();
     setTimeout(() => {
       window.location.reload();
     }, 2000);

@@ -4,7 +4,7 @@ import GradientLineChart from "@/examples/Charts/GradientLineChart.vue";
 import Calendar from "../examples/Calendar.vue";
 import CategoriesList from "./components/CategoriesList.vue";
 import { ref, onMounted } from "vue";
-import axios from "axios";
+import api from "/src/boot/axios";
 
 import US from "@/assets/img/icons/flags/US.png";
 import DE from "@/assets/img/icons/flags/DE.png";
@@ -46,7 +46,7 @@ const countUsers = ref([]);
 
 onMounted(async () => {
   try {
-    const response = await axios.get("http://localhost:3000/todo", {
+    const response = await api.get("/todo", {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
@@ -63,7 +63,7 @@ const countTareas = ref([]);
 
 onMounted(async () => {
   try {
-    const response = await axios.get("http://localhost:3000/tarea", {
+    const response = await api.get("/tarea", {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",

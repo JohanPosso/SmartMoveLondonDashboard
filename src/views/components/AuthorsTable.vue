@@ -29,7 +29,11 @@
               >
                 Pais
               </th>
-              <th class="text-secondary opacity-7"></th>
+              <th
+                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+              >
+                options
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -94,12 +98,12 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import axios from "axios";
+import api from "/src/boot/axios";
 
 const users = ref([]);
 onMounted(async () => {
   try {
-    const response = await axios.get("http://localhost:3000/todo", {
+    const response = await api.get("/todo", {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
@@ -114,15 +118,12 @@ onMounted(async () => {
 
 const statusChange = async (id) => {
   try {
-    const response = await axios.get(
-      `http://localhost:3000/statusempleado/${id}`,
-      {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await api.get(`/statusempleado/${id}`, {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+      },
+    });
     window.location.reload();
     return response.data;
   } catch (error) {

@@ -79,14 +79,14 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import axios from "axios";
+import api from "/src/boot/axios";
 import moment from "moment";
 
 const tareas = ref([]);
 
 onMounted(async () => {
   try {
-    const response = await axios.get("http://localhost:3000/tarea", {
+    const response = await api.get("/tarea", {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
@@ -101,7 +101,7 @@ onMounted(async () => {
 
 const statusChange = async (id) => {
   try {
-    const response = await axios.get(`http://localhost:3000/statutask/${id}`, {
+    const response = await api.get(`/statutask/${id}`, {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
@@ -116,9 +116,7 @@ const statusChange = async (id) => {
 
 const deleteTask = async (id) => {
   try {
-    const response = await axios.delete(
-      `http://localhost:3000/deletetarea/${id}`
-    );
+    const response = await api.delete(`/deletetarea/${id}`);
     console.log(response.data);
     window.location.reload();
   } catch (error) {

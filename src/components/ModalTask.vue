@@ -31,8 +31,51 @@
           ></button>
         </div>
         <div class="modal-body">
-          <!-- //// -->
+          <!-- Formulario -->
           <form>
+            <!-- Selección de Empleados -->
+            <div class="mb-3">
+              <label for="selectEmpleados" class="form-label"
+                >👤 Seleccionar Empleados</label
+              >
+              <select
+                multiple
+                v-model="selectedEmpleados"
+                class="form-select"
+                id="selectEmpleados"
+              >
+                <option
+                  v-for="(user, index) in users"
+                  :key="index"
+                  :value="user"
+                >
+                  {{ user.nombres }}
+                </option>
+              </select>
+            </div>
+
+            <!-- Empleados Seleccionados -->
+            <div class="mb-3">
+              <span class="input-group-text">📞 Empleados Seleccionados</span>
+              <ul class="list-group">
+                <li
+                  v-for="(empleado, index) in selectedEmpleados"
+                  :key="index"
+                  class="list-group-item d-flex justify-content-between align-items-center"
+                >
+                  {{ empleado.nombres }} - {{ empleado.telefono }}
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-sm"
+                    @click="removeEmpleado(index)"
+                  >
+                    X
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Otros campos del formulario -->
             <div class="input-group mb-3">
               <span class="input-group-text" id="nombre">📝 Tarea</span>
               <input
@@ -45,25 +88,6 @@
                 id="nombre"
                 name="nombre"
               />
-            </div>
-
-            <div class="input-group mb-3">
-              <span class="input-group-text" for="id_empleado"
-                >👤 Empleado</span
-              >
-              <select
-                v-model="id_empleado"
-                class="form-select"
-                id="id_empleado"
-              >
-                <option
-                  :value="item.id_empleado"
-                  v-for="(item, index) in users"
-                  :key="index"
-                >
-                  {{ item.nombres }}
-                </option>
-              </select>
             </div>
 
             <div class="input-group mb-3">
@@ -133,7 +157,9 @@
               <label for="descripcion">Comments</label>
             </div>
           </form>
-          <!-- //// -->
+          <div v-if="responseMessage" class="alert alert-info mt-3">
+            {{ responseMessage }}
+          </div>
         </div>
         <div class="modal-footer">
           <button
@@ -162,12 +188,13 @@ import api from "/src/boot/axios";
 
 const nombre = ref("");
 const fecha_entraga = ref("");
-const id_empleado = ref("");
 const urgente = ref("");
 const importante = ref("");
 const normal = ref("");
 const descripcion = ref("");
 const users = ref([]);
+const selectedEmpleados = ref([]);
+const responseMessage = ref("");
 
 onMounted(async () => {
   try {
@@ -178,22 +205,52 @@ onMounted(async () => {
         token: `Bearer ${localStorage.getItem("token")}`,
       },
     });
-    users.value = response.data;
+    users.value = response.data.filter((user) => user.status);
   } catch (error) {
     console.error("Error al cargar los usuarios:", error);
   }
 });
 
 const prioridad = () => {
-  if (urgente.value === true) return (urgente.value = "Urgente");
-  if (importante.value === true) return (importante.value = "Importante");
-  if (normal.value === true) return (normal.value = "No importante");
+  if (urgente.value) return "Urgente";
+  if (importante.value) return "Importante";
+  if (normal.value) return "No importante";
   return "";
+};
+
+const removeEmpleado = (index) => {
+  selectedEmpleados.value.splice(index, 1);
+};
+
+const sendWhatsapp = async (userDataValue) => {
+  try {
+    const messages = selectedEmpleados.value.map((empleado) => ({
+      to: `${empleado.telefono}`,
+      msg: `
+        🚨*NUEVA TAREA - SMART MOVE LONDON*🚨
+
+        Prioridad: *${userDataValue.prioridad}*
+        -------------------------
+        Nombre: *${userDataValue.nombre}*
+        -------------------------
+        Fecha de Fin: *${userDataValue.fecha_finalizacion_task}*
+        -------------------------
+        *Descripción*: ${userDataValue.descripcion}
+      `,
+    }));
+
+    const response = await api.post("/sendmsg", messages);
+    responseMessage.value = response.data.resp;
+    return response;
+  } catch (error) {
+    responseMessage.value = "Error al enviar los mensajes.";
+    console.log(error);
+  }
 };
 
 const submitForm = async () => {
   const userDataValue = {
-    id_empleado: id_empleado.value,
+    id_empleado: selectedEmpleados.value.map((e) => e.id_empleado),
     nombre: nombre.value,
     fecha_finalizacion_task: fecha_entraga.value,
     fecha_asignacion_task: Date.now(),
@@ -201,40 +258,17 @@ const submitForm = async () => {
     prioridad: prioridad(),
     descripcion: descripcion.value,
   };
-  const sendWhatsapp = async () => {
-    try {
-      const findNumber = users.value.find(
-        (e) => e.id_empleado === userDataValue.id_empleado
-      );
-      console.log(findNumber.telefono); // PONER ESTE NUMERO QUE ES EL DEL USUARIO
-      const response = await api.post("/sendmsg", {
-        to: "+34610137677", // AQUI SE DEBE REEMPLAZAR
-        msg: `
-        🚨*NUEVA TAREA - SMART MOVE LONDON*🚨
 
-    Prioridad:       *${userDataValue.prioridad}*
-    ----------------------------------------
-    Nombre:          *${userDataValue.nombre}*
-    ----------------------------------------
-    Fecha de Fin:    *${userDataValue.fecha_finalizacion_task}*
-    ----------------------------------------
-    *Descripción*:     ${userDataValue.descripcion}
-  `,
-      });
-      return response;
-    } catch (error) {
-      console.log(error);
-    }
-  };
   try {
     const response = await api.post("/creartarea", userDataValue);
-    sendWhatsapp();
+    await sendWhatsapp(userDataValue);
     setTimeout(() => {
       window.location.reload();
     }, 2000);
     return response;
   } catch (error) {
-    console.error("Error al cargar los usuarios:", error);
+    responseMessage.value = "Error al crear la tarea.";
+    console.error("Error al crear la tarea:", error);
   }
 };
 </script>

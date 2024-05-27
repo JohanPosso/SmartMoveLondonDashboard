@@ -6,7 +6,7 @@ import axios from "axios";
 import "./assets/css/nucleo-icons.css";
 import "./assets/css/nucleo-svg.css";
 import ArgonDashboard from "./argon-dashboard";
-import './registerServiceWorker'
+// import './registerServiceWorker'
 
 axios.defaults.baseURL = process.env.BACKEND_URI;
 axios.defaults.withCredentials = true;

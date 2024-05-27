@@ -130,14 +130,12 @@ onBeforeMount(() => {
   store.state.hideConfigButton = true;
   store.state.showNavbar = false;
   store.state.showSidenav = false;
-  store.state.showFooter = false;
   body.classList.remove("bg-gray-100");
 });
 onBeforeUnmount(() => {
   store.state.hideConfigButton = false;
   store.state.showNavbar = true;
   store.state.showSidenav = true;
-  store.state.showFooter = true;
   body.classList.add("bg-gray-100");
 });
 
@@ -157,10 +155,16 @@ const submitLogin = async () => {
       }
     }, 900000);
     setTimeout(() => {
-      router.push("/dashboard-default");
+      router.push("/dashboard");
     }, 1000);
   } catch (error) {
     console.error("Error al cargar los usuarios:", error);
   }
 };
 </script>
+
+<style scoped>
+.main-content {
+  padding: 0;
+}
+</style>

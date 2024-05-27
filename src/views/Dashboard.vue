@@ -5,7 +5,6 @@ import Calendar from "../examples/Calendar.vue";
 import CategoriesList from "./components/CategoriesList.vue";
 import { ref, onMounted } from "vue";
 import api from "/src/boot/axios";
-
 import US from "@/assets/img/icons/flags/US.png";
 import DE from "@/assets/img/icons/flags/DE.png";
 import GB from "@/assets/img/icons/flags/GB.png";
@@ -150,6 +149,7 @@ onMounted(async () => {
             <Calendar />
           </div>
         </div>
+
         <div class="row mt-4">
           <div class="col-lg-7 mb-lg-0 mb-4">
             <div class="card">

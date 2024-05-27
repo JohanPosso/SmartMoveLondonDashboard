@@ -2,7 +2,6 @@
 import { onBeforeUnmount, onBeforeMount } from "vue";
 import { useStore } from "vuex";
 
-import AppFooter from "@/examples/PageLayout/Footer.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonCheckbox from "@/components/ArgonCheckbox.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
@@ -13,14 +12,12 @@ onBeforeMount(() => {
   store.state.hideConfigButton = true;
   store.state.showNavbar = false;
   store.state.showSidenav = false;
-  store.state.showFooter = false;
   body.classList.remove("bg-gray-100");
 });
 onBeforeUnmount(() => {
   store.state.hideConfigButton = false;
   store.state.showNavbar = true;
   store.state.showSidenav = true;
-  store.state.showFooter = true;
   body.classList.add("bg-gray-100");
 });
 </script>
@@ -218,5 +215,4 @@ onBeforeUnmount(() => {
       </div>
     </div>
   </main>
-  <app-footer />
 </template>

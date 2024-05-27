@@ -14,7 +14,6 @@ export default createStore({
     showNavs: true,
     showSidenav: true,
     showNavbar: true,
-    showFooter: true,
     showMain: true,
     layout: "default",
   },

@@ -1,4 +1,6 @@
+// router/index.js
 import { createRouter, createWebHistory } from "vue-router";
+import Layout from "../components/Layout.vue"; // Asegúrate de importar tu layout principal
 import Dashboard from "../views/Dashboard.vue";
 import Empleados from "../views/Empleados.vue";
 import Billing from "../views/Billing.vue";
@@ -19,28 +21,34 @@ const routes = [
     component: Prueba,
   },
   {
-    path: "/dashboard-default",
-    name: "Dashboard",
-    component: Dashboard,
-    meta: { requiresAuth: true },
-  },
-  {
-    path: "/empleados",
-    name: "Tables",
-    component: Empleados,
-    meta: { requiresAuth: true },
-  },
-  {
-    path: "/billing",
-    name: "Billing",
-    component: Billing,
-    meta: { requiresAuth: true },
-  },
-  {
-    path: "/profile",
-    name: "Profile",
-    component: Profile,
-    meta: { requiresAuth: true },
+    path: "/",
+    component: Layout,
+    children: [
+      {
+        path: "/dashboard",
+        name: "Dashboard",
+        component: Dashboard,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "/empleados",
+        name: "Tables",
+        component: Empleados,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "/tareas",
+        name: "Tareas",
+        component: Billing,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "/registrar",
+        name: "Registrar",
+        component: Profile,
+        meta: { requiresAuth: true },
+      },
+    ],
   },
   {
     path: "/signin",

@@ -1,6 +1,8 @@
 <template>
   <div>
-    <MenuMovil />
+    <div class="menu-movil">
+      <MenuMovil />
+    </div>
     <router-view />
   </div>
 </template>
@@ -14,3 +16,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+@media screen and (min-width: 1200px) {
+  .menu-movil {
+    display: none;
+  }
+}
+</style>

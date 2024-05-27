@@ -18,7 +18,7 @@
             <div
               class="mx-auto col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0"
             >
-              <div>
+              <div class="div-logo">
                 <img
                   src="../assets/img/logo_smartmove.png"
                   style="width: 200px"
@@ -166,5 +166,9 @@ const submitLogin = async () => {
 <style scoped>
 .main-content {
   padding: 0;
+}
+.div-logo {
+  display: flex;
+  justify-content: space-around;
 }
 </style>

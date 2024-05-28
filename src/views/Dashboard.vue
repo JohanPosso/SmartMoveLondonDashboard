@@ -1,6 +1,5 @@
 <script setup>
 import MiniStatisticsCard from "@/examples/Cards/MiniStatisticsCard.vue";
-import GradientLineChart from "@/examples/Charts/GradientLineChart.vue";
 import Calendar from "../examples/Calendar.vue";
 import CategoriesList from "./components/CategoriesList.vue";
 import { ref, onMounted } from "vue";
@@ -114,41 +113,7 @@ onMounted(async () => {
             />
           </div>
         </div>
-        <div class="row">
-          <div class="col-lg-7 mt-4">
-            <!-- line chart -->
-            <div style="height: 100%" class="card z-index-2">
-              <gradient-line-chart
-                id="chart-line"
-                title="Tareas Overview"
-                description="<i class='fa fa-arrow-up text-success'></i>
-      <span class='font-weight-bold'>4% more</span> in 2021"
-                :chart="{
-                  labels: [
-                    'Apr',
-                    'May',
-                    'Jun',
-                    'Jul',
-                    'Aug',
-                    'Sep',
-                    'Oct',
-                    'Nov',
-                    'Dec',
-                  ],
-                  datasets: [
-                    {
-                      label: 'Mobile Apps',
-                      data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
-                    },
-                  ],
-                }"
-              />
-            </div>
-          </div>
-          <div class="col-lg-5">
-            <Calendar />
-          </div>
-        </div>
+        <Calendar />
 
         <div class="row mt-4">
           <div class="col-lg-7 mb-lg-0 mb-4">

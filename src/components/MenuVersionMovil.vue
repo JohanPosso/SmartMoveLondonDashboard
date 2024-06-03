@@ -20,10 +20,10 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 const navItems = [
-  { name: "Empleados", icon: "fas fa-user", route: "/empleados" },
-  { name: "Tareas", icon: "fas fa-tasks", route: "/tareas" },
-  { name: "Dashboard", icon: "fas fa-home", route: "/dashboard" },
-  { name: "Registrar", icon: "fas fa-user-plus", route: "/registrar" },
+  { name: "Employees", icon: "fas fa-user", route: "/empleados" },
+  { name: "Tasks", icon: "fas fa-tasks", route: "/tareas" },
+  { name: "Home", icon: "fas fa-home", route: "/dashboard" },
+  { name: "Register", icon: "fas fa-user-plus", route: "/registrar" },
   { name: "Settings", icon: "fas fa-cog", route: "/settings" },
 ];
 

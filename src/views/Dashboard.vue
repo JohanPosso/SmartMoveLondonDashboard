@@ -81,7 +81,7 @@ onMounted(async () => {
         <div class="row">
           <div class="col-lg-3 col-md-6 col-12">
             <mini-statistics-card
-              title="Total de empleados"
+              title="Total employees"
               :value="countUsers"
               :icon="{
                 component: 'ni ni-world',
@@ -92,22 +92,11 @@ onMounted(async () => {
           </div>
           <div class="col-lg-3 col-md-6 col-12">
             <mini-statistics-card
-              title="Total de tareas"
+              title="Total tasks"
               :value="countTareas"
               :icon="{
                 component: 'ni ni-paper-diploma',
                 background: 'bg-gradient-success',
-                shape: 'rounded-circle',
-              }"
-            />
-          </div>
-          <div class="col-lg-3 col-md-6 col-12">
-            <mini-statistics-card
-              title="Total de Ingresos"
-              value="$1,203.430"
-              :icon="{
-                component: 'ni ni-money-coins',
-                background: 'bg-gradient-warning',
                 shape: 'rounded-circle',
               }"
             />

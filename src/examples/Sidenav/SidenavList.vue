@@ -24,7 +24,7 @@ const getRoute = () => {
         <sidenav-item
           to="/dashboard"
           :class="getRoute() === 'dashboard' ? 'active' : ''"
-          :navText="isRTL ? 'لوحة القيادة' : 'Panel de Configuracion'"
+          :navText="isRTL ? 'لوحة القيادة' : 'Home'"
         >
           <template v-slot:icon>
             <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
@@ -36,7 +36,7 @@ const getRoute = () => {
         <sidenav-item
           to="/empleados"
           :class="getRoute() === 'Empleados' ? 'active' : ''"
-          :navText="isRTL ? 'الجداول' : 'Empleados'"
+          :navText="isRTL ? 'الجداول' : 'Employees'"
         >
           <template v-slot:icon>
             <i
@@ -50,7 +50,7 @@ const getRoute = () => {
         <sidenav-item
           to="/tareas"
           :class="getRoute() === 'tareas' ? 'active' : ''"
-          :navText="isRTL ? 'الفواتیر' : 'Tareas'"
+          :navText="isRTL ? 'الفواتیر' : 'Tasks'"
         >
           <template v-slot:icon>
             <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
@@ -58,29 +58,11 @@ const getRoute = () => {
         </sidenav-item>
       </li>
 
-      <li class="mt-3 nav-item">
-        <h6
-          v-if="isRTL"
-          class="text-xs ps-4 text-uppercase font-weight-bolder opacity-6"
-          :class="isRTL ? 'me-4' : 'ms-2'"
-        >
-          صفحات المرافق
-        </h6>
-
-        <h6
-          v-else
-          class="text-xs ps-4 text-uppercase font-weight-bolder opacity-6"
-          :class="isRTL ? 'me-4' : 'ms-2'"
-        >
-          ACCOUNT PAGES
-        </h6>
-      </li>
-
       <li class="nav-item">
         <sidenav-item
           to="/registrar"
           :class="getRoute() === 'registrar' ? 'active' : ''"
-          :navText="isRTL ? 'حساب تعريفي' : 'Crear Empleado'"
+          :navText="isRTL ? 'حساب تعريفي' : 'Create employee'"
         >
           <template v-slot:icon>
             <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>

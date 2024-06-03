@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header pb-0">
-      <h6>Empleados</h6>
+      <h6>Employees</h6>
     </div>
     <div class="card-body px-0 pt-0 pb-2">
       <div class="table-responsive p-0">
@@ -11,12 +11,12 @@
               <th
                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
               >
-                Nombre
+                Name
               </th>
               <th
                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"
               >
-                Telefono
+                Phone
               </th>
 
               <th
@@ -27,12 +27,7 @@
               <th
                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
               >
-                Pais
-              </th>
-              <th
-                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
-              >
-                options
+                Country
               </th>
             </tr>
           </thead>
@@ -78,15 +73,6 @@
                 <span class="text-secondary text-xs font-weight-bold">{{
                   item.pais
                 }}</span>
-              </td>
-              <td class="align-middle">
-                <a
-                  href="javascript:;"
-                  class="text-secondary font-weight-bold text-xs"
-                  data-toggle="tooltip"
-                  data-original-title="Edit user"
-                  >Edit</a
-                >
               </td>
             </tr>
           </tbody>

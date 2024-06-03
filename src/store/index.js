@@ -1,4 +1,9 @@
 import { createStore } from "vuex";
+import { reactive } from "vue";
+
+export const globalState = reactive({
+  employeeNames: "",
+});
 
 export default createStore({
   state: {

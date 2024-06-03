@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header pb-0 px-3">
-      <h6 class="mb-0">Tareas asginadas</h6>
+      <h6 class="mb-0">Assigned tasks</h6>
     </div>
     <div class="card-body pt-4 p-3">
       <ul class="list-group">
@@ -21,47 +21,37 @@
                 class="btn-status badge badge-sm bg-gradient-danger mb-2"
                 @click="statusChange(item.id_tarea)"
               >
-                Pendiente
+                Pending
               </button>
               <button
                 v-if="item.status === true"
                 class="btn-status badge badge-sm bg-gradient-success mb-2"
                 @click="statusChange(item.id_tarea)"
               >
-                Tarea finalizada
+                Task completed
               </button>
             </div>
             <h6 class="mb-3 text-sm">{{ item.nombre }}</h6>
             <span class="mb-2 text-xs">
-              Fecha asignacion:
+              Assignment date:
               <span class="text-dark font-weight-bold ms-sm-2">{{
                 moment(item.fecha_asignacion_task).format("YYYY-MM-DD")
               }}</span>
             </span>
             <span class="mb-2 text-xs">
-              Fecha finalizacion:
+              End date:
               <span class="text-dark ms-sm-2 font-weight-bold">{{
                 moment(item.fecha_finalizacion_task).format("YYYY-MM-DD")
               }}</span>
             </span>
 
             <span class="text-xs">
-              Descripcion:
+              Description:
               <span class="text-dark ms-sm-2 font-weight-bold">{{
                 item.descripcion
               }}</span>
             </span>
             <div class="btn-delete">
-              <button
-                class="btn btn-link text-danger text-dark px-3 mb-0"
-                href="javascript:;"
-              >
-                <i
-                  class="fas fa-pencil-alt text-dark me-2"
-                  aria-hidden="true"
-                ></i
-                >Edit
-              </button>
               <button
                 @click="deleteTask(item.id_tarea)"
                 class="btn btn-link text-danger text-gradient px-3 mb-0"
@@ -94,6 +84,7 @@ onMounted(async () => {
       },
     });
     tareas.value = response.data;
+    console.log(response.data);
   } catch (error) {
     console.error("Error al cargar los usuarios:", error);
   }

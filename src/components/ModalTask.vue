@@ -1,15 +1,13 @@
 <template>
-  <!-- Button trigger modal -->
   <button
     type="button"
     class="btn btn-primary"
     data-bs-toggle="modal"
     data-bs-target="#createTask"
   >
-    Crear Tarea
+    Create task
   </button>
 
-  <!-- Modal -->
   <div
     class="modal fade"
     id="createTask"
@@ -21,7 +19,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="exampleModalLabel">
-            Crear nueva tarea
+            Create new task
           </h1>
           <button
             type="button"
@@ -31,12 +29,10 @@
           ></button>
         </div>
         <div class="modal-body">
-          <!-- Formulario -->
           <form>
-            <!-- Selección de Empleados -->
             <div class="mb-3">
               <label for="selectEmpleados" class="form-label"
-                >👤 Seleccionar Empleados</label
+                >👤 Select employees</label
               >
               <select
                 multiple
@@ -56,7 +52,7 @@
 
             <!-- Empleados Seleccionados -->
             <div class="mb-3">
-              <span class="input-group-text">📞 Empleados Seleccionados</span>
+              <span class="input-group-text">📞 Selected employees</span>
               <ul class="list-group">
                 <li
                   v-for="(empleado, index) in selectedEmpleados"
@@ -77,16 +73,28 @@
 
             <!-- Otros campos del formulario -->
             <div class="input-group mb-3">
-              <span class="input-group-text" id="nombre">📝 Tarea</span>
+              <span class="input-group-text" id="nombre">📝 Task Name</span>
               <input
                 v-model="nombre"
                 type="text"
                 class="form-control"
-                placeholder="Nombre de tarea"
                 aria-label="Username"
                 aria-describedby="basic-addon1"
                 id="nombre"
                 name="nombre"
+              />
+            </div>
+
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="nombre">📍 Address</span>
+              <input
+                v-model="direccion"
+                type="text"
+                class="form-control"
+                aria-label="address"
+                aria-describedby="basic-addon1"
+                id="direccion"
+                name="direccion"
               />
             </div>
 
@@ -104,9 +112,22 @@
               />
             </div>
 
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="">🕐</span>
+              <input
+                type="time"
+                class="form-control"
+                aria-label="hour"
+                aria-describedby="basic-addon1"
+                id="hora"
+                name="hora"
+                v-model="hora"
+              />
+            </div>
+
             <hr />
 
-            <h5 class="text-center">Prioridad</h5>
+            <h5 class="text-center">Priority</h5>
             <div class="flex-item d-flex justify-content-around mb-3">
               <div class="form-check form-switch">
                 <input
@@ -116,7 +137,7 @@
                   role="switch"
                   id="urgente"
                 />
-                <label class="form-check-label" for="urgente">Urgente</label>
+                <label class="form-check-label" for="urgente">Urgent</label>
               </div>
 
               <div class="form-check form-switch">
@@ -128,7 +149,7 @@
                   v-model="importante"
                 />
                 <label class="form-check-label" for="importante"
-                  >Importante</label
+                  >Important</label
                 >
               </div>
 
@@ -140,7 +161,9 @@
                   id="normal"
                   v-model="normal"
                 />
-                <label class="form-check-label" for="normal">No tanto</label>
+                <label class="form-check-label" for="normal"
+                  >Less important</label
+                >
               </div>
             </div>
 
@@ -174,7 +197,7 @@
             type="button"
             class="btn btn-primary"
           >
-            Save changes
+            Submit
           </button>
         </div>
       </div>
@@ -191,6 +214,8 @@ const fecha_entraga = ref("");
 const urgente = ref("");
 const importante = ref("");
 const normal = ref("");
+const hora = ref("");
+const direccion = ref("");
 const descripcion = ref("");
 const users = ref([]);
 const selectedEmpleados = ref([]);
@@ -207,14 +232,14 @@ onMounted(async () => {
     });
     users.value = response.data.filter((user) => user.status);
   } catch (error) {
-    console.error("Error al cargar los usuarios:", error);
+    return error;
   }
 });
 
 const prioridad = () => {
   if (urgente.value) return "Urgente";
   if (importante.value) return "Importante";
-  if (normal.value) return "No importante";
+  if (normal.value) return "Menos importante";
   return "";
 };
 
@@ -224,8 +249,12 @@ const removeEmpleado = (index) => {
 
 const sendWhatsapp = async (userDataValue) => {
   try {
+    const employeeNames = selectedEmpleados.value
+      .map((empleado) => empleado.nombres)
+      .join(", ");
+
     const messages = selectedEmpleados.value.map((empleado) => ({
-      to: `${empleado.telefono}`,
+      to: `+${empleado.telefono}`,
       msg: `
         🚨*NUEVA TAREA - SMART MOVE LONDON*🚨
 
@@ -233,7 +262,13 @@ const sendWhatsapp = async (userDataValue) => {
         -------------------------
         Nombre: *${userDataValue.nombre}*
         -------------------------
+        Hora: *${userDataValue.hora}*
+        -------------------------
+        Direccion: *${userDataValue.direccion}*
+        -------------------------
         Fecha de Fin: *${userDataValue.fecha_finalizacion_task}*
+        -------------------------
+        Equipo: *${employeeNames}*
         -------------------------
         *Descripción*: ${userDataValue.descripcion}
       `,
@@ -243,8 +278,7 @@ const sendWhatsapp = async (userDataValue) => {
     responseMessage.value = response.data.resp;
     return response;
   } catch (error) {
-    responseMessage.value = "Error al enviar los mensajes.";
-    console.log(error);
+    responseMessage.value = "Error sending messages.";
   }
 };
 
@@ -255,6 +289,8 @@ const submitForm = async () => {
     fecha_finalizacion_task: fecha_entraga.value,
     fecha_asignacion_task: Date.now(),
     status: false,
+    direccion: direccion.value,
+    hora: hora.value,
     prioridad: prioridad(),
     descripcion: descripcion.value,
   };
@@ -267,8 +303,7 @@ const submitForm = async () => {
     }, 2000);
     return response;
   } catch (error) {
-    responseMessage.value = "Error al crear la tarea.";
-    console.error("Error al crear la tarea:", error);
+    responseMessage.value = "Error creating the task.";
   }
 };
 </script>

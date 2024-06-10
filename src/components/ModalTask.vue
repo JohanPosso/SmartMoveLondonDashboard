@@ -84,6 +84,18 @@
                 name="nombre"
               />
             </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="employeeNames">👥 Team</span>
+              <input
+                v-model="employeeNames"
+                type="text"
+                class="form-control"
+                aria-label="Username"
+                aria-describedby="basic-addon1"
+                id="employeeNames"
+                name="employeeNames"
+              />
+            </div>
 
             <div class="input-group mb-3">
               <span class="input-group-text" id="nombre">📍 Address</span>
@@ -220,6 +232,7 @@ const descripcion = ref("");
 const users = ref([]);
 const selectedEmpleados = ref([]);
 const responseMessage = ref("");
+const employeeNames = ref("");
 
 onMounted(async () => {
   try {
@@ -237,9 +250,9 @@ onMounted(async () => {
 });
 
 const prioridad = () => {
-  if (urgente.value) return "Urgente";
-  if (importante.value) return "Importante";
-  if (normal.value) return "Menos importante";
+  if (urgente.value) return "Urgent";
+  if (importante.value) return "Important";
+  if (normal.value) return "Less important";
   return "";
 };
 
@@ -249,28 +262,24 @@ const removeEmpleado = (index) => {
 
 const sendWhatsapp = async (userDataValue) => {
   try {
-    const employeeNames = selectedEmpleados.value
-      .map((empleado) => empleado.nombres)
-      .join(", ");
-
     const messages = selectedEmpleados.value.map((empleado) => ({
       to: `+${empleado.telefono}`,
       msg: `
-        🚨*NUEVA TAREA - SMART MOVE LONDON*🚨
+        🚨*NEW TASK - SMART MOVE LONDON*🚨
 
-        Prioridad: *${userDataValue.prioridad}*
+        Priority: *${userDataValue.prioridad}*
         -------------------------
-        Nombre: *${userDataValue.nombre}*
+        Name: *${userDataValue.nombre}*
         -------------------------
-        Hora: *${userDataValue.hora}*
+        Time: *${userDataValue.hora}*
         -------------------------
-        Direccion: *${userDataValue.direccion}*
+        Address: *${userDataValue.direccion}*
         -------------------------
-        Fecha de Fin: *${userDataValue.fecha_finalizacion_task}*
+        End Date: *${userDataValue.fecha_finalizacion_task}*
         -------------------------
-        Equipo: *${employeeNames}*
+        Team: *${employeeNames.value}*
         -------------------------
-        *Descripción*: ${userDataValue.descripcion}
+        *Description*: ${userDataValue.descripcion}
       `,
     }));
 

@@ -83,8 +83,7 @@ onMounted(async () => {
         token: `Bearer ${localStorage.getItem("token")}`,
       },
     });
-    tareas.value = response.data;
-    console.log(response.data);
+    tareas.value = response.data.reverse();
   } catch (error) {
     console.error("Error al cargar los usuarios:", error);
   }

@@ -49,7 +49,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import api from "/src/boot/axios";
 import moment from "moment";
 import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js";
-import { globalState } from "../store/index";
+// import { globalState } from "../store/index";
 
 const props = defineProps({
   id: {
@@ -109,6 +109,7 @@ onMounted(async () => {
         extendedProps: {
           fullTitle: e.nombre,
           description: e.descripcion,
+          employees: e.equipo,
         },
       });
     });
@@ -153,7 +154,8 @@ onMounted(async () => {
         document.getElementById("taskModalLabel").textContent =
           info.event.extendedProps.fullTitle;
         document.getElementById("taskDescription").textContent =
-          `Description: ${info.event.extendedProps.description || "No description available"} \n Employees: ${globalState.employeeNames}`;
+          `Description: ${info.event.extendedProps.description || "No description available"} 
+          \n Employees: ${info.event.extendedProps.employees}`;
         modal.show();
       },
     });

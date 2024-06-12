@@ -277,7 +277,7 @@ const sendWhatsapp = async (userDataValue) => {
         -------------------------
         End Date: *${userDataValue.fecha_finalizacion_task}*
         -------------------------
-        Team: *${employeeNames.value}*
+        Team: *${userDataValue.equipo}*
         -------------------------
         *Description*: ${userDataValue.descripcion}
       `,
@@ -301,6 +301,7 @@ const submitForm = async () => {
     direccion: direccion.value,
     hora: hora.value,
     prioridad: prioridad(),
+    equipo: employeeNames.value,
     descripcion: descripcion.value,
   };
 

@@ -153,9 +153,10 @@ onMounted(async () => {
         const modal = new bootstrap.Modal(document.getElementById("taskModal"));
         document.getElementById("taskModalLabel").textContent =
           info.event.extendedProps.fullTitle;
-        document.getElementById("taskDescription").textContent =
-          `Description: ${info.event.extendedProps.description || "No description available"} 
-          \n Employees: ${info.event.extendedProps.employees}`;
+        document.getElementById("taskDescription").innerHTML = `
+  <div><strong>Employees:</strong> ${info.event.extendedProps.employees}</div>
+  <div><strong>Description:</strong> ${info.event.extendedProps.description || "No description available"}</div>
+`;
         modal.show();
       },
     });
@@ -195,5 +196,8 @@ onBeforeUnmount(() => {
 
 .toast-style .modal-body {
   padding: 1rem;
+}
+.btn-close {
+  background-color: black;
 }
 </style>

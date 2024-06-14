@@ -143,7 +143,7 @@
                   <label for="example-text-input" class="form-control-label"
                     >Postcode</label
                   >
-                  <argon-input v-model="postcode" type="text" />
+                  <argon-input v-model="codigo_postal" type="text" />
                 </div>
               </div>
               <hr class="horizontal dark" />
@@ -181,7 +181,7 @@ const fecha_nacimiento = ref();
 const direccion = ref();
 const ciudad = ref();
 const pais = ref();
-const postcode = ref();
+const codigo_postal = ref();
 
 const userData = ref({
   genero,
@@ -194,7 +194,7 @@ const userData = ref({
   direccion,
   ciudad,
   pais,
-  postcode,
+  codigo_postal,
 });
 
 onMounted(() => {

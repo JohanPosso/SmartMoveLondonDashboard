@@ -58,6 +58,10 @@ onMounted(async () => {
 });
 
 const countTareas = ref([]);
+const countTareasAbiertas = ref([]);
+const countTareasCerradas = ref([]);
+const countTareasUrgentes = ref([]);
+const countTareasImportantes = ref([]);
 
 onMounted(async () => {
   try {
@@ -69,6 +73,19 @@ onMounted(async () => {
       },
     });
     countTareas.value = response.data.length;
+    countTareasAbiertas.value = response.data.filter(
+      (e) => e.status === true
+    ).length;
+
+    countTareasCerradas.value = response.data.filter(
+      (e) => e.status === false
+    ).length;
+    countTareasUrgentes.value = response.data.filter(
+      (e) => e.prioridad == "Urgent"
+    ).length;
+    countTareasImportantes.value = response.data.filter(
+      (e) => e.prioridad == "Important"
+    ).length;
   } catch (error) {
     console.error("Error al cargar los usuarios:", error);
   }
@@ -161,26 +178,26 @@ onMounted(async () => {
                     component: 'ni ni-mobile-button',
                     background: 'dark',
                   },
-                  label: 'Devices',
-                  description: '250 in stock <strong>346+ sold</strong>',
+                  label: 'Task completed',
+                  description: `<strong>${countTareasAbiertas} closed</strong>`,
+                },
+                {
+                  icon: { component: 'ni ni-box-2', background: 'dark' },
+                  label: 'Task pending',
+                  description: `<strong>${countTareasCerradas} open</strong>`,
                 },
                 {
                   icon: {
                     component: 'ni ni-tag',
                     background: 'dark',
                   },
-                  label: 'Tickets',
-                  description: '123 closed <strong>15 open</strong>',
-                },
-                {
-                  icon: { component: 'ni ni-box-2', background: 'dark' },
-                  label: 'Error logs',
-                  description: '1 is active <strong>40 closed</strong>',
+                  label: 'Urgent tasks',
+                  description: `  <strong>${countTareasUrgentes} urgent tasks priority</strong>`,
                 },
                 {
                   icon: { component: 'ni ni-satisfied', background: 'dark' },
-                  label: 'Happy Users',
-                  description: '+ 430',
+                  label: 'Important task',
+                  description: `<strong>${countTareasImportantes} important tasks priority<strong>`,
                 },
               ]"
             />

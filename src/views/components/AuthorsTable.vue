@@ -224,8 +224,8 @@ import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
 const isEditing = ref(false);
 const idEmpleado = ref([]);
-
 const users = ref([]);
+
 onMounted(async () => {
   try {
     const response = await api.get("/todo", {
@@ -235,6 +235,7 @@ onMounted(async () => {
         token: `Bearer ${localStorage.getItem("token")}`,
       },
     });
+
     users.value = response.data;
   } catch (error) {
     console.error("Error al cargar los usuarios:", error);
@@ -259,18 +260,41 @@ const statusChange = async (id) => {
 const editUser = async (id_empleado) => {
   isEditing.value = true;
   idEmpleado.value.push(id_empleado);
+
+  const responseEmpleado = await api.get(`/empleado/${id_empleado}`, {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+      token: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+
+  const empleado = responseEmpleado.data;
+
+  genero.value = empleado.genero || "";
+  nombres.value = empleado.nombres || "";
+  primer_apellido.value = empleado.primer_apellido || "";
+  segundo_apellido.value = empleado.segundo_apellido || "";
+  email.value = empleado.email || "";
+  telefono.value = empleado.telefono || "";
+  fecha_nacimiento.value = empleado.fecha_nacimiento || "";
+  direccion.value = empleado.direccion || "";
+  ciudad.value = empleado.ciudad || "";
+  pais.value = empleado.pais || "";
+  postcode.value = empleado.codigo_postal || "";
 };
 
 const body = document.getElementsByTagName("body")[0];
 const store = useStore();
 const genero = ref("");
-const nombres = ref("");
+const nombres = ref();
 const primer_apellido = ref();
 const segundo_apellido = ref();
 const email = ref();
 const telefono = ref();
 const fecha_nacimiento = ref();
 const direccion = ref();
+const ciudad = ref();
 const pais = ref();
 const postcode = ref();
 
@@ -303,6 +327,8 @@ const submitForm = async () => {
     fecha_nacimiento: fecha_nacimiento.value,
     telefono: telefono.value,
     codigo_postal: postcode.value,
+    direccion: direccion.value,
+    ciudad: ciudad.value,
     pais: pais.value,
     genero: genero.value,
   });

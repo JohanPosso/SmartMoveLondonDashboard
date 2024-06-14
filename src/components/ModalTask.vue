@@ -264,23 +264,15 @@ const sendWhatsapp = async (userDataValue) => {
   try {
     const messages = selectedEmpleados.value.map((empleado) => ({
       to: `+${empleado.telefono}`,
-      msg: `
-        🚨*NEW TASK - SMART MOVE LONDON*🚨
-
-        Priority: *${userDataValue.prioridad}*
-        -------------------------
-        Name: *${userDataValue.nombre}*
-        -------------------------
-        Time: *${userDataValue.hora}*
-        -------------------------
-        Address: *${userDataValue.direccion}*
-        -------------------------
-        End Date: *${userDataValue.fecha_finalizacion_task}*
-        -------------------------
-        Team: *${userDataValue.equipo}*
-        -------------------------
-        *Description*: ${userDataValue.descripcion}
-      `,
+      contentVariables: {
+        1: userDataValue.prioridad,
+        2: userDataValue.nombre,
+        3: userDataValue.hora,
+        4: userDataValue.direccion,
+        5: userDataValue.fecha_finalizacion_task,
+        6: userDataValue.equipo,
+        7: userDataValue.descripcion,
+      },
     }));
 
     const response = await api.post("/sendmsg", messages);
